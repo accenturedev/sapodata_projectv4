@@ -1,0 +1,16 @@
+{
+  "projectInfo": {
+    "projectName": "App Odata V4",
+    "createdDate": "Monday, March 14, 2022 at 12:26:41 PM",
+    "regenerateProxyClassDate": ""
+  },
+  "cloudApplication": {
+    "cloudApplicationId": "com-app-odata",
+    "destinations": [
+      {
+        "id": "sapodatav4"
+      }
+    ]
+  },
+  "msServerConfigurationName": "SAP Resource"
+}

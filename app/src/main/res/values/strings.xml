@@ -1,0 +1,8 @@
+<resources  xmlns:tools="http://schemas.android.com/tools"
+             tools:ignore="MissingTranslation" >
+    <string name="application_name">Carrefour</string>
+    <string name="eset_orderitemset">OrderItemSet</string>
+    <string name="eset_orderitemset_single">OrderItem</string>
+    <string name="eset_orderset">OrderSet</string>
+    <string name="eset_orderset_single">Order</string>
+</resources>

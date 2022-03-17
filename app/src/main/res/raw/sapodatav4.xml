@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="SAP__common"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_MEASURES',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="Org.OData.Measures.V1" Alias="SAP__measures"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CORE',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="Org.OData.Core.V1" Alias="SAP__core"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CAPABILITIES',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="SAP__capabilities"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_AGGREGATION',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="Org.OData.Aggregation.V1" Alias="SAP__aggregation"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="Org.OData.Validation.V1" Alias="SAP__validation"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CODELIST',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.CodeList.v1" Alias="SAP__CodeList"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="SAP__UI"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="com.sap.gateway.default.ztest_odatav4.v0001" Alias="SAP__self">
+            <EntityType Name="Order">
+                <Key>
+                    <PropertyRef Name="OrderNumber"/>
+                </Key>
+                <Property Name="OrderNumber" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="Date" Type="Edm.Date" Nullable="false"/>
+                <Property Name="Quantity" Type="Edm.Decimal" Precision="7"/>
+                <Property Name="OrderType" Type="Edm.String" MaxLength="4"/>
+                <Property Name="OrderTypeDesc" Type="Edm.String" MaxLength="40"/>
+                <Property Name="IssuingStLocation" Type="Edm.String" MaxLength="4"/>
+                <Property Name="ReceivingPlant" Type="Edm.String" MaxLength="4"/>
+                <Property Name="ReceivingPlantD" Type="Edm.String" MaxLength="30"/>
+                <Property Name="Status" Type="Edm.String" MaxLength="40"/>
+                <Property Name="LastChangeDateTime" Type="Edm.DateTimeOffset" Nullable="false"/>
+                <NavigationProperty Name="OrderToItems" Type="com.sap.gateway.default.ztest_odatav4.v0001.OrderItem" Nullable="false">
+                    <ReferentialConstraint Property="OrderNumber" ReferencedProperty="OrderNumber"/>
+                    <OnDelete Action="None"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="OrderItem">
+                <Key>
+                    <PropertyRef Name="OrderNumber"/>
+                    <PropertyRef Name="Position"/>
+                </Key>
+                <Property Name="OrderNumber" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="Position" Type="Edm.String" Nullable="false" MaxLength="5"/>
+                <Property Name="ItemId" Type="Edm.String" Nullable="false" MaxLength="40"/>
+                <Property Name="Description" Type="Edm.String"/>
+                <Property Name="OrderQuantity" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="RemainQuantity" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="MaterialGroup" Type="Edm.String" MaxLength="9"/>
+                <Property Name="IssuingStLocation" Type="Edm.String" MaxLength="4"/>
+                <Property Name="IssuingStLocationDesc" Type="Edm.String"/>
+                <Property Name="Status" Type="Edm.String" MaxLength="40"/>
+            </EntityType>
+            <EntityContainer Name="Container">
+                <EntitySet Name="OrderItemSet" EntityType="com.sap.gateway.default.ztest_odatav4.v0001.OrderItem"/>
+                <EntitySet Name="OrderSet" EntityType="com.sap.gateway.default.ztest_odatav4.v0001.Order"/>
+            </EntityContainer>
+            <Annotations Target="SAP__self.Container/OrderSet">
+                <Annotation Term="SAP__core.OptimisticConcurrency">
+                    <Collection>
+                        <PropertyPath>LastChangeDateTime</PropertyPath>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.UpdateRestrictions">
+                    <Record>
+                        <PropertyValue Property="QueryOptions">
+                            <Record>
+                                <PropertyValue Property="SelectSupported" Bool="true"/>
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.Container/OrderItemSet">
+                <Annotation Term="SAP__capabilities.UpdateRestrictions">
+                    <Record>
+                        <PropertyValue Property="QueryOptions">
+                            <Record>
+                                <PropertyValue Property="SelectSupported" Bool="true"/>
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
